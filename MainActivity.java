@@ -1,4 +1,4 @@
-package com.example.background;
+package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,8 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     Button btn1,btn2;
+    Thread thread=null;
+    boolean isRunning=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,22 +20,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btn1.setOnClickListener(this);
         btn2.setOnClickListener(this);
-
-
-
     }
 
     @Override
     public void onClick(View view) {
-        if(view == btn1){
 
-            startService(new Intent( this,background.class ) );
-        }
-        else if (view == btn2){
+         thread=new Thread(new Runnable() {
+             @Override
+             public void run() {
+                 while(isRunning) {
+                     try {
+                         thread.sleep(100);
+                         if (view == btn1) {
+                             Intent i = new Intent(getApplicationContext(), background.class);
+                             startService(i);
+                         }
+                     } catch (Exception e) {
+                         e.printStackTrace();
+                     }
 
-            stopService(new Intent( this, background.class ) );
+                 }
 
-        }
+//
+             }
+         });
+         thread.start();
+
+
+//        if(view == btn1){
+//            Intent i=new Intent(getApplicationContext(),background.class);
+//            startService(i);
+//        }
+//        else if (view == btn2){
+//            Intent i=new Intent(getApplicationContext(),background.class);
+//            stopService(i);
+//
+//        }
 
     }
 }
