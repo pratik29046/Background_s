@@ -21,7 +21,7 @@ public class background extends Service {
                  try{
                      player.setLooping(true);
                      player.start();
-                     Thread.sleep(1000);
+//                      Thread.sleep(1000);
 
                  }catch (Exception e){
                       System.out.println(e);
